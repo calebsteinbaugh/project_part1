@@ -1,7 +1,6 @@
-from typing import Union
 
 class Account:
-    r"""
+    """
     A class representing a bank account with deposit and withdrawal functionality.
     
     Attributes:
@@ -12,7 +11,7 @@ class Account:
     """
     
     def __init__(self, name: str, username: str, password: str, balance: float = 0) -> None:
-        r"""
+        """
         Initialize a new Account instance.
         
         Args:
@@ -34,7 +33,7 @@ class Account:
         self.set_balance(balance)
         
     def set_balance(self, value: float) -> None:
-        r"""
+        """
         Set the account balance.
         
         Args:
@@ -46,7 +45,7 @@ class Account:
             self.__balance = value
             
     def set_username(self, username: str) -> None:
-        r"""
+        """
         Set the account username.
         
         Args:
@@ -61,7 +60,7 @@ class Account:
         self.__username = username
         
     def set_password(self, password: str) -> None:
-        r"""
+        """
         Set the account password.
         
         Args:
@@ -76,7 +75,7 @@ class Account:
         self.__password = password
             
     def deposit(self, amount: float) -> bool:
-        r"""
+        """
         Deposit funds into the account.
         
         Args:
@@ -91,7 +90,7 @@ class Account:
         return False
      
     def withdraw(self, amount: float) -> bool:
-        r"""
+        """
         Withdraw funds from the account.
         
         Args:
@@ -106,7 +105,7 @@ class Account:
         return False
      
     def get_balance(self) -> float:
-        r"""
+        """
         Get the current account balance.
         
         Returns:
@@ -115,7 +114,7 @@ class Account:
         return self.__balance
      
     def get_name(self) -> str:
-        r"""
+        """
         Get the account holder's name.
         
         Returns:
@@ -124,7 +123,7 @@ class Account:
         return self.__name
 
     def get_username(self) -> str:
-        r"""
+        """
         Get the account username.
         
         Returns:
@@ -133,7 +132,7 @@ class Account:
         return self.__username
      
     def get_password(self) -> str:
-        r"""
+        """
         Get the account password.
         
         Returns:
@@ -142,7 +141,7 @@ class Account:
         return self.__password
      
     def set_name(self, value: str) -> None:
-        r"""
+        """
         Set the account holder's name.
         
         Args:
@@ -151,7 +150,7 @@ class Account:
         self.__name = value
          
     def __str__(self) -> str:
-        r"""
+        """
         Return a string representation of the account.
         
         Returns:
@@ -161,7 +160,7 @@ class Account:
 
 
 class SavingAccount(Account):
-    r"""
+    """
     A savings account class that extends Account with interest and deposit tracking.
     
     Attributes:
@@ -174,7 +173,7 @@ class SavingAccount(Account):
     rate: float = 0.02
          
     def __init__(self, name: str, username: str, password: str, balance: float = minimum, deposit_count: int = 0) -> None:
-        r"""
+        """
         Initialize a new SavingAccount instance.
         
         Args:
@@ -188,14 +187,14 @@ class SavingAccount(Account):
         self.__deposit_count: int = deposit_count
      
     def apply_interest(self) -> None:
-        r"""
+        """
         Apply interest to the savings account based on current balance.
         """
         interest: float = self.get_balance() * self.rate
         super().deposit(interest)
         
     def deposit(self, amount: float) -> bool:
-        r"""
+        """
         Deposit funds into the savings account.
         
         Args:
@@ -216,7 +215,7 @@ class SavingAccount(Account):
         return False
      
     def withdraw(self, amount: float) -> bool:
-        r"""
+        """
         Withdraw funds from the savings account.
         
         Args:
@@ -230,7 +229,7 @@ class SavingAccount(Account):
         return super().withdraw(amount)
          
     def set_balance(self, value: float) -> None:
-        r"""
+        """
         Set the savings account balance ensuring minimum is maintained.
         
         Args:
@@ -242,7 +241,7 @@ class SavingAccount(Account):
             super().set_balance(value)
      
     def __str__(self) -> str:
-        r"""
+        """
         Return a string representation of the savings account.
         
         Returns:
