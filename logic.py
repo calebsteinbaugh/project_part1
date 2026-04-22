@@ -76,12 +76,28 @@ class LoginController:
         if self.banking_ui.deposit_button.isChecked():
             if self.banking_ui.checking_button.isChecked():
                 self.checking.deposit(amount)
+                self.store_transaction(
+                    self.checking.get_username(),
+                    'Deposit',
+                    'Checking',
+                    amount,
+                    self.checking.get_balance() )
+                
+                
                 self.banking_ui.validation_message_txt.setText(
                     "Deposit to checking successful."
                 )
+                
 
             elif self.banking_ui.savings_button.isChecked():
                 self.savings.deposit(amount)
+                self.store_transaction(
+                    self.checking.get_username(),
+                    'Deposit',
+                    'Savings',
+                    amount,
+                    self.checking.get_balance() )
+                
                 self.banking_ui.validation_message_txt.setText(
                     "Deposit to savings successful."
                 )
@@ -96,6 +112,13 @@ class LoginController:
         elif self.banking_ui.withdraw_button.isChecked():
             if self.banking_ui.checking_button.isChecked():
                 if self.checking.withdraw(amount):
+                    self.store_transaction(
+                    self.checking.get_username(),
+                    'Withdraw',
+                    'checking',
+                    amount,
+                    self.checking.get_balance() )
+                
                     self.banking_ui.validation_message_txt.setText(
                         "Withdraw from checking successful."
                     )
@@ -107,6 +130,14 @@ class LoginController:
 
             elif self.banking_ui.savings_button.isChecked():
                 if self.savings.withdraw(amount):
+                    self.store_transaction(
+                    self.checking.get_username(),
+                    'Withdraw',
+                    'Savings',
+                    amount,
+                    self.checking.get_balance() )
+                
+                
                     self.banking_ui.validation_message_txt.setText(
                         "Withdraw from savings successful."
                     )
@@ -137,3 +168,9 @@ class LoginController:
         )
 
         self.banking_ui.amount_input.clear()
+        
+    def store_transaction(self, username, action, account_type, amount, balance):
+          with open('transactions.csv', 'a', newline = '') as transactions_file:
+              writer = csv.writer(transactions_file)
+              writer.writerow([username, action, account_type, amount, balance])
+              
