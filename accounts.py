@@ -57,13 +57,6 @@ class Account:
         return f'Account name: {self.get_name()}, Account balance: {self.get_balance():.2f}'
             
 
-# account_one = Account('John')
-# account_two = Account('Tom', 30)
-# account_three = Account('Tim',-300)
-# 
-# print(account_one)
-# account_one.deposit(10)
-
 class SavingAccount(Account):
             
     minimum = 100 
