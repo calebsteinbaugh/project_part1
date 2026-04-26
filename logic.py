@@ -8,12 +8,8 @@ import sys
 
 
 class LoginController:
-    """
-    Handles login, banking window setup, transaction processing,
-    and transaction logging.
-    """
 
-    def __init__(self, ui, window) -> None:
+    def __init__(self, ui, window):
         self.ui = ui
         self.window = window
 
@@ -28,16 +24,11 @@ class LoginController:
         self.connect_signals()
         self.ui.feedback_txt.setText("")
 
-    # -------------------------
-    # Login setup
-    # -------------------------
-    def connect_signals(self) -> None:
-        """Connect login window buttons to controller methods."""
+    def connect_signals(self):
         self.ui.signin_button.clicked.connect(self.login)
         self.ui.register_button.clicked.connect(self.open_registration_window)
         
-    def login(self) -> None:
-        """Validate login credentials and open the banking window if successful."""
+    def login(self):
         username = self.ui.username_input.text().strip()
         password = self.ui.password_input.text().strip()
 
@@ -51,8 +42,7 @@ class LoginController:
         else:
             self.ui.feedback_txt.setText("Invalid username or password.")
      
-    def open_registration_window(self) -> None:
-        """Open the registration window."""
+    def open_registration_window(self):
             
         self.registration_window = QMainWindow()
         self.registration_ui = Ui_registration_window()
@@ -67,14 +57,12 @@ class LoginController:
         self.window.hide()
 
 
-    def return_to_login(self) -> None:
-        """Return from registration window to login window."""
+    def return_to_login(self):
         self.registration_window.close()
         self.window.show()
 
 
-    def registration(self) -> None:
-        """Register a new user and save credentials/account info to CSV."""
+    def registration(self):
         name = self.registration_ui.user_name.text().strip()
         username = self.registration_ui.user_username.text().strip()
         password = self.registration_ui.user_password.text().strip()
@@ -111,8 +99,7 @@ class LoginController:
         self.registration_ui.validation_txt.setText("Account registered successfully.")    
   
 
-    def validate_login_inputs(self, username: str, password: str) -> bool:
-        """Validate username and password fields."""
+    def validate_login_inputs(self, username, password):
         if username == "":
             self.ui.feedback_txt.setText(
                 "Please enter a username.\nUsername must be alphanumeric and\n>8 characters."
@@ -127,18 +114,13 @@ class LoginController:
 
         return True
 
-    # -------------------------
-    # Banking window setup
-    # -------------------------
-    def create_accounts(self, username: str, password: str) -> None:
+
+    def create_accounts(self, username: str, password):
         """Create checking and savings account objects."""
         self.checking = Account(username, username, password, 1000)
         self.savings = SavingAccount(username, username, password, 500)
 
-    def open_banking_window(self, username: str) -> None:
-        """Open the banking window and initialize display values."""
-    def open_banking_window(self, username: str) -> None:
-        """Open the banking window and initialize display values."""
+    def open_banking_window(self, username):
         self.banking_window = QMainWindow()
         self.banking_ui = Ui_banking_info_window()
         self.banking_ui.setupUi(self.banking_window)
@@ -147,14 +129,12 @@ class LoginController:
         self.update_balance_labels()
         self.banking_ui.validation_message_txt.setText("")
 
-        # Connect buttons
         self.banking_ui.submit_trans_button.clicked.connect(self.transaction)
         self.banking_ui.pushButton.clicked.connect(self.sign_out) 
 
         self.banking_window.show()
         self.window.hide()
-    def update_balance_labels(self) -> None:
-        """Update checking and savings balance labels."""
+    def update_balance_labels(self):
         self.banking_ui.user_checking_balance_label.setText(
             f"${self.checking.get_balance():.2f}"
         )
@@ -162,11 +142,7 @@ class LoginController:
             f"${self.savings.get_balance():.2f}"
         )
 
-    # -------------------------
-    # Transaction handling
-    # -------------------------
-    def transaction(self) -> None:
-        """Process deposit or withdrawal after Submit is clicked."""
+    def transaction(self):
         amount = self.get_transaction_amount()
 
         if amount is None:
@@ -187,8 +163,7 @@ class LoginController:
         self.update_balance_labels()
         self.banking_ui.amount_input.clear()
 
-    def get_transaction_amount(self) -> float | None:
-        """Read and validate the transaction amount."""
+    def get_transaction_amount(self):
         try:
             amount = float(self.banking_ui.amount_input.text().strip())
         except ValueError:
@@ -201,8 +176,7 @@ class LoginController:
 
         return amount
 
-    def handle_deposit(self, amount: float) -> None:
-        """Handle a deposit into checking or savings."""
+    def handle_deposit(self, amount):
         if self.banking_ui.checking_button.isChecked():
             self.checking.deposit(amount)
             self.store_transaction(
@@ -234,8 +208,7 @@ class LoginController:
                 "Select an account to deposit into."
             )
 
-    def handle_withdraw(self, amount: float) -> None:
-        """Handle a withdrawal from checking or savings."""
+    def handle_withdraw(self, amount):
         if self.banking_ui.checking_button.isChecked():
             if self.checking.withdraw(amount):
                 self.store_transaction(
@@ -275,10 +248,8 @@ class LoginController:
                 "Select an account to withdraw from."
             )
 
-    def sign_out(self) -> None:
-        '''
-        Return user to login window from banking window
-        '''
+    def sign_out(self):
+        
         self.banking_window.close()
         
         self.ui.username_input.clear()
@@ -288,19 +259,7 @@ class LoginController:
         self.window.show()
         
         
-        
-    # -------------------------
-    # CSV logging
-    # -------------------------
-    def store_transaction(
-        self,
-        username: str,
-        action: str,
-        account_type: str,
-        amount: float,
-        balance: float,
-    ) -> None:
-        """Append a completed transaction to transactions.csv."""
+    def store_transaction(self, username, action, account_type, amount, balance):
         with open("transactions.csv", "a", newline="") as transactions_file:
             writer = csv.writer(transactions_file)
             writer.writerow([username, action, account_type, amount, balance])
