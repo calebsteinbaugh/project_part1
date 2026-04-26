@@ -5,7 +5,9 @@ from banking_info_gui import Ui_banking_info_window
 from registration_window import Ui_registration_window
 import csv
 import sys 
-
+'''
+Copilot was used to help docstring, format, and comment code to help with readability
+'''
 
 class LoginController:
     """
